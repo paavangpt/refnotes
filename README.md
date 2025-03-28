@@ -1,21 +1,21 @@
-Introducing [App Name] – The Future of Note-Taking and Thought Sharing
-📝 Private Notes, Public Thoughts. AI-Powered Insights.
+## Introducing [App Name] – The Future of Note-Taking and Thought Sharing
+Private Notes, Public Thoughts. AI-Powered Insights.
 
-[App Name] is a next-gen note-taking app that seamlessly blends personal journaling, community engagement, and AI-driven assistance—giving you a space to both reflect privately and share ideas with the world.
+RefNotes is a next-gen note-taking app that seamlessly blends personal journaling, community engagement, and AI-driven assistance—giving you a space to both reflect privately and share ideas with the world.
 
-✨ Key Features:
-🔒 Private Space – Capture your thoughts, organize notes, and keep track of ideas in your personal haven.
-🌍 Public Communities – Share insights with like-minded people, engage in discussions, and be part of thought-provoking communities.
-🤖 AI-Powered Assistance –
+**✨ Key Features:**
+- 🔒 Private Space – Capture your thoughts, organize notes, and keep track of ideas in your personal haven.
+- 🌍 Public Communities – Share insights with like-minded people, engage in discussions, and be part of thought-provoking communities.
+- 🤖 AI-Powered Assistance –
 
-AI suggests insights from your past notes (if granted access).
+AI suggests insights from your past notes (if granted access 🛡️).
 
-Smart recommendations and auto-suggestions while writing.
+Smart recommendations and auto-suggestions while writing. ☕️
 
 Connects your current thoughts with past reflections for deeper self-awareness.
 💡 Social + AI-Enhanced Experience – A micro-social network where notes transform into meaningful discussions and personal growth.
 
-✨ Whether you're journaling, brainstorming, or engaging in discussions, [App Name] is your intelligent companion for writing, thinking, and connecting.
+✨ Whether you're journaling, brainstorming, or engaging in discussions, RefNotes is your intelligent companion for writing, thinking, and connecting.
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
