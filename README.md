@@ -1,4 +1,4 @@
-## Introducing [App Name] – The Future of Note-Taking and Thought Sharing
+## Introducing RefNotes – The Future of Note-Taking and Thought Sharing
 Private Notes, Public Thoughts. AI-Powered Insights.
 
 RefNotes is a next-gen note-taking app that seamlessly blends personal journaling, community engagement, and AI-driven assistance—giving you a space to both reflect privately and share ideas with the world.
