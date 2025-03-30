@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Comment } from "@/data/mockThoughts";
 import { useRouter } from "next/navigation";
+import { useSelectedThoughtStore } from "@/store/useSelectedThoughtStore";
 
 interface SocialCardProps {
     thoughtContent: string;
@@ -146,26 +147,39 @@ export default function SocialCard({
         e.stopPropagation(); // Prevent navigation when clicking the comment input
         e.preventDefault(); // Prevent default link behavior
     };
-    
+
     const router = useRouter();
 
+    const setSelectedThought = useSelectedThoughtStore(
+        (state) => state.setSelectedThoughtId
+    );
     // Get the most recent comment to display (if showing comments)
     const latestComment =
         commentsData.length > 0 ? commentsData[commentsData.length - 1] : null;
 
     return (
-        <div className="block cursor-pointer" onClick={() => {
-            router.push(`/thought/${id}`);
-        }}>
+        <div
+            className="block cursor-pointer"
+            onClick={() => {
+                setSelectedThought(id);
+            }}
+        >
             <div className="w-full rounded-lg p-4 bg-[#ffffff] drop-shadow-sm font-geologica transition duration-100 hover:shadow-[0_0_10px_-2px_rgba(138,43,226,0.2)] transition-colors duration-200 relative border border-[#eee]">
                 {/* Make the whole card clickable but leave interactive elements untouched */}
-                <Link href={`/thought/${id}`} className="absolute inset-0 z-0" aria-label={`View details of ${username}'s thought`}></Link>
+                <Link
+                    href={`/thought/${id}`}
+                    className="absolute inset-0 z-0"
+                    aria-label={`View details of ${username}'s thought`}
+                ></Link>
 
                 <div className="relative z-10">
                     <div className="flex items-start gap-3 mb-4">
                         <div className="w-10 h-full overflow-hidden relative flex flex-col">
                             <div className="h-10 w-full rounded-full overflow-hidden">
-                                <img src={authorImage} alt={`${username}'s avatar`} />
+                                <img
+                                    src={authorImage}
+                                    alt={`${username}'s avatar`}
+                                />
                             </div>
                             <div className="h-full w-10 bg-black"></div>
                         </div>
@@ -205,12 +219,17 @@ export default function SocialCard({
                                     </div>
                                 )}
                             </div>
-                            
+
                             {isEditing && isAuthor ? (
-                                <div className="flex flex-col gap-2" onClick={handleEditingClick}>
+                                <div
+                                    className="flex flex-col gap-2"
+                                    onClick={handleEditingClick}
+                                >
                                     <textarea
                                         value={content}
-                                        onChange={(e) => setContent(e.target.value)}
+                                        onChange={(e) =>
+                                            setContent(e.target.value)
+                                        }
                                         className="w-full p-2 border border-gray-200 rounded-md font-geologica"
                                         rows={3}
                                         onClick={(e) => {
@@ -242,14 +261,18 @@ export default function SocialCard({
                                     </div>
                                 </div>
                             ) : (
-                                <p className="text-gray-800 font-normal">{content}</p>
+                                <p className="text-gray-800 font-normal">
+                                    {content}
+                                </p>
                             )}
 
                             {/* Like info */}
                             {likesData.length > 0 && (
                                 <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
                                     <Users className="h-3 w-3" />
-                                    <span>{likesCount} people liked this post</span>
+                                    <span>
+                                        {likesCount} people liked this post
+                                    </span>
                                 </div>
                             )}
 
@@ -283,7 +306,10 @@ export default function SocialCard({
 
                     {/* Comments section - showing only the latest comment */}
                     {showComments && latestComment && (
-                        <div className="mt-3 border-t border-gray-100 pt-3" onClick={handleCommentInputClick}>
+                        <div
+                            className="mt-3 border-t border-gray-100 pt-3"
+                            onClick={handleCommentInputClick}
+                        >
                             <div className="flex justify-between items-center mb-2">
                                 <h4 className="text-sm font-medium text-gray-700">
                                     Comments
@@ -328,7 +354,10 @@ export default function SocialCard({
                     )}
 
                     {/* Comment input section */}
-                    <div className="flex items-center gap-3 mt-4" onClick={handleCommentInputClick}>
+                    <div
+                        className="flex items-center gap-3 mt-4"
+                        onClick={handleCommentInputClick}
+                    >
                         <div className="w-8 h-8 rounded-full overflow-hidden relative">
                             <Image
                                 src={currentUserImage}
@@ -343,7 +372,7 @@ export default function SocialCard({
                                 placeholder="Write a comment"
                                 value={comment}
                                 onChange={(e) => setComment(e.target.value)}
-                                className="flex-1 px-4 h-full text-base text-sm border-gray-200 rounded-md font-geologica bg-[#f4f3fd] outline-none"
+                                className="flex-1 px-4 h-full text-base text-sm border-gray-200 rounded-full font-geologica bg-[#f4f3fd] outline-none"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     e.preventDefault();
@@ -358,8 +387,8 @@ export default function SocialCard({
                             />
                             <button
                                 className={`rounded-full h-full aspect-square flex items-center justify-center text-base text-white rounded-full font-geologica cursor-pointer duration-100 ${
-                                    comment.trim() 
-                                        ? "bg-[#8881D8] hover:bg-[#7069d0]" 
+                                    comment.trim()
+                                        ? "bg-[#8881D8] hover:bg-[#7069d0]"
                                         : "bg-[#b8b2ec] cursor-not-allowed"
                                 }`}
                                 onClick={(e) => {

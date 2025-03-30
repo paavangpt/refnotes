@@ -119,7 +119,7 @@ export default function ThoughtCreator() {
     }
 
     return (
-        <div className=" h-fit max-w-xl w-full bg-white rounded-lg p-4 border border-[#eee] shadow-sm font-geologica mb-6">
+        <div className=" h-fit max-w-[520px] w-full bg-white rounded-lg p-4 border border-[#eee] shadow-sm font-geologica mb-6">
             <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-full overflow-hidden relative flex-shrink-0">
                     <Image

@@ -3,6 +3,7 @@
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import ThoughtCreator from "./components/ThoughtCreator";
+import ThoughtDetail from "./components/ThoughtDetail";
 
 export default function FeedLayout({
     children,
@@ -14,10 +15,13 @@ export default function FeedLayout({
             <Navbar />
             <div className="flex-1 flex pt-5 gap-0">
                 <Sidebar />
-                <main className="flex-1 max-w-7xl mx-auto overflow-scroll">
+                <main className="flex-1 max-w-9xl mx-auto overflow-scroll">
                     {children}
                 </main>
-                <ThoughtCreator />
+                <div className="h-full flex flex-col pr-3 gap-3">
+                    <ThoughtDetail />
+                    <ThoughtCreator />
+                </div>
             </div>
         </div>
     );

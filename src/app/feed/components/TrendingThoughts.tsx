@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Flame } from "lucide-react";
 import { useThoughtStore } from "@/store/useThoughtStore";
+import { useSelectedThoughtStore } from "@/store/useSelectedThoughtStore";
 
 function TrendingThoughts() {
     const { thoughts } = useThoughtStore();
@@ -15,7 +16,11 @@ function TrendingThoughts() {
             const bEngagement = b.likes + b.comments + b.shares;
             return bEngagement - aEngagement;
         })
-        .slice(0, 10);
+        .slice(0, 3);
+
+    const setSelectedThought = useSelectedThoughtStore(
+        (state) => state.setSelectedThoughtId
+    );
 
     return (
         <div className="bg-white rounded-lg shadow-[0_0_10px_-2px_rgba(138,43,226,0.2)] overflow-hidden border border-[#ccc] flex flex-col">
@@ -32,11 +37,11 @@ function TrendingThoughts() {
                 </Link>
             </div>
 
-            <div className="overflow-y-auto max-h-[400px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+            <div className="overflow-y-auto max-h-[400px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent pt-2">
                 {trendingThoughts.map((thought) => (
-                    <Link
+                    <div
                         key={thought.id}
-                        href={`/thought/${thought.id}`}
+                        onClick={() => setSelectedThought(thought.id)}
                         className="flex items-start py-3 px-5 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
                     >
                         <div className="w-8 h-8 rounded-full overflow-hidden relative flex-shrink-0 mr-2">
@@ -60,7 +65,7 @@ function TrendingThoughts() {
                                 <span>{thought.comments} comments</span>
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 ))}
             </div>
         </div>

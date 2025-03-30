@@ -15,16 +15,17 @@ export default function Feed() {
     const { isFollowing } = useUserRelationshipStore();
     const [displayedThoughts, setDisplayedThoughts] = useState(thoughts);
     const [showCreator, setShowCreator] = useState(true);
+    const [selectedThoughtId, setSelectedThoughtId] = useState<string | null>(null);
 
     // Update displayed thoughts when global thoughts or following relationships change
     useEffect(() => {
         if (thoughts && currentUser) {
             // Filter thoughts to show only from people you follow and your own
-            const filtered = thoughts.filter((thought) => {
+            const filtered = thoughts.filter(thought => {
                 // Always show your own thoughts
                 if (thought.authorId === currentUser.id) return true;
                 // Show public thoughts from people you follow
-                return thought.isPublic && isFollowing(thought.authorId);
+                return thought.isPublic;
             });
             setDisplayedThoughts(filtered);
         }

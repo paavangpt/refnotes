@@ -46,7 +46,7 @@ function Sidebar() {
                     </Link>
                 </div>
 
-                <div className="px-5 py-3 flex flex-col gap-3">
+                <div className="px-5 py-1 flex flex-col gap-3">
                     {suggestedUsers.map((user) => (
                         <div
                             key={user.id}
