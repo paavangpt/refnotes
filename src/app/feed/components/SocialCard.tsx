@@ -148,8 +148,6 @@ export default function SocialCard({
         e.preventDefault(); // Prevent default link behavior
     };
 
-    const router = useRouter();
-
     const setSelectedThought = useSelectedThoughtStore(
         (state) => state.setSelectedThoughtId
     );

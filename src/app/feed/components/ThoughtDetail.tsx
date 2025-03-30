@@ -1,115 +1,22 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
-import {
-    Heart,
-    MessageCircle,
-    Share,
-    X,
-    Send,
-    ChevronDown,
-    ChevronUp,
-    Users,
-} from "lucide-react";
+import { useSelectedThoughtStore } from "@/store/useSelectedThoughtStore";
 import { useThoughtStore } from "@/store/useThoughtStore";
 import { useUserStore } from "@/store/useUserStore";
-import { useSelectedThoughtStore } from "@/store/useSelectedThoughtStore";
-import { Comment as CommentType, Thought } from "@/data/mockThoughts";
-import { Button } from "@/components/ui/button";
+import { Heart, X, Send, Users } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
-import { ScrollArea } from "../../../components/ui/scroll-area";
-
-const Comment = ({ comment }: { comment: CommentType }) => {
-    const timeAgo = formatDistanceToNow(new Date(comment.timestamp), {
-        addSuffix: true,
-    });
-
-    return (
-        <div className="flex gap-2 mb-4">
-            <div className="relative w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
-                <Image
-                    src={comment.authorImage}
-                    alt={comment.authorName}
-                    fill
-                    className="object-cover"
-                />
-            </div>
-            <div className="flex-1">
-                <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex justify-between items-start">
-                        <h4 className="text-sm font-semibold text-gray-800">
-                            {comment.authorName}
-                        </h4>
-                        <span className="text-xs text-gray-500">{timeAgo}</span>
-                    </div>
-                    <p className="text-sm text-gray-700 mt-1">{comment.text}</p>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const LikedByList = ({ likedBy }: { likedBy: string[] }) => {
-    const { thoughts } = useThoughtStore();
-    const mockUsers = thoughts
-        .flatMap((thought) => (thought.likedBy ? thought.likedBy : []))
-        .filter((value, index, self) => self.indexOf(value) === index);
-
-    return (
-        <div className="py-2">
-            <h3 className="font-medium text-gray-800 mb-3 flex items-center gap-2">
-                <Users size={16} />
-                <span>Liked by {likedBy.length} people</span>
-            </h3>
-
-            <ScrollArea className="h-[300px] pr-4">
-                <div className="space-y-3">
-                    {likedBy.map((userId) => {
-                        // Find thought that has this user's info based on likedBy
-                        const userThought = thoughts.find(
-                            (t) =>
-                                t.authorId === userId ||
-                                (t.likedBy && t.likedBy.includes(userId))
-                        );
-
-                        const userName = userThought?.username || "User";
-                        const userImage =
-                            userThought?.authorImage ||
-                            "https://randomuser.me/api/portraits/lego/1.jpg";
-
-                        return (
-                            <div
-                                key={userId}
-                                className="flex items-center gap-3"
-                            >
-                                <div className="relative w-8 h-8 rounded-full overflow-hidden">
-                                    <Image
-                                        src={userImage}
-                                        alt={userName}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                </div>
-                                <div>
-                                    <p className="font-medium text-sm">
-                                        {userName}
-                                    </p>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </ScrollArea>
-        </div>
-    );
-};
+import { Button } from "@/components/ui/button";
+import { Comment as CommentType } from "@/data/mockThoughts";
+import Comment from "./Comment";
+import LikedByList from "./LikedByList";
 
 export default function ThoughtDetail() {
     const { thoughts, likeThought, unlikeThought, addComment } =

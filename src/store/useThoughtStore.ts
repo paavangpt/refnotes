@@ -6,6 +6,10 @@ interface ThoughtState {
   // All thoughts in the system
   thoughts: Thought[];
   
+  // Filter for showing only user thoughts
+  showOnlyUserThoughts: boolean;
+  setShowOnlyUserThoughts: (show: boolean) => void;
+  
   // Loading and error states
   isLoading: boolean;
   error: string | null;
@@ -30,14 +34,18 @@ interface ThoughtState {
 
 export const useThoughtStore = create<ThoughtState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // Initial state - ensure each thought has commentData initialized
       thoughts: mockThoughts.map(thought => ({
         ...thought,
         commentData: Array.isArray(thought.commentData) ? thought.commentData : []
       })),
+      showOnlyUserThoughts: false,
       isLoading: false,
       error: null,
+      
+      // Set filter for user thoughts
+      setShowOnlyUserThoughts: (show) => set({ showOnlyUserThoughts: show }),
       
       // Actions
       setThoughts: (thoughts) => set({ thoughts }),
@@ -60,7 +68,7 @@ export const useThoughtStore = create<ThoughtState>()(
       
       updateThought: (id, updates) => {
         set((state) => ({
-          thoughts: state.thoughts.map((thought) => 
+          thoughts: state.thoughts.map((thought: Thought) => 
             thought.id === id ? { ...thought, ...updates } : thought
           )
         }));
@@ -74,7 +82,7 @@ export const useThoughtStore = create<ThoughtState>()(
       
       deleteThought: (id) => {
         set((state) => ({
-          thoughts: state.thoughts.filter((thought) => thought.id !== id)
+          thoughts: state.thoughts.filter((thought: Thought) => thought.id !== id)
         }));
         
         // Update the original mock data
@@ -86,7 +94,7 @@ export const useThoughtStore = create<ThoughtState>()(
       
       likeThought: (thoughtId, userId) => {
         set((state) => ({
-          thoughts: state.thoughts.map((thought) => {
+          thoughts: state.thoughts.map((thought: Thought) => {
             if (thought.id === thoughtId) {
               // Check if user already liked this thought
               if (!thought.likedBy.includes(userId)) {
@@ -117,14 +125,14 @@ export const useThoughtStore = create<ThoughtState>()(
       
       unlikeThought: (thoughtId, userId) => {
         set((state) => ({
-          thoughts: state.thoughts.map((thought) => {
+          thoughts: state.thoughts.map((thought: Thought) => {
             if (thought.id === thoughtId) {
               // Check if user had liked this thought
               if (thought.likedBy.includes(userId)) {
                 return {
                   ...thought,
                   likes: Math.max(0, thought.likes - 1),
-                  likedBy: thought.likedBy.filter(id => id !== userId)
+                  likedBy: thought.likedBy.filter((id: string) => id !== userId)
                 };
               }
             }
@@ -148,7 +156,7 @@ export const useThoughtStore = create<ThoughtState>()(
       
       addComment: (thoughtId, comment) => {
         set((state) => ({
-          thoughts: state.thoughts.map((thought) => {
+          thoughts: state.thoughts.map((thought: Thought) => {
             if (thought.id === thoughtId) {
               // Ensure commentData is an array before adding to it
               const commentData = Array.isArray(thought.commentData) ? thought.commentData : [];
@@ -183,18 +191,35 @@ export const useThoughtStore = create<ThoughtState>()(
     }),
     {
       name: 'thoughts-storage',
-      // Manual merge strategy to ensure data structure consistency
-      merge: (persistedState: any, currentState) => {
-        // Ensure all thoughts have commentData as an array
-        const thoughts = (persistedState.thoughts || []).map((thought: Thought) => ({
-          ...thought,
-          commentData: Array.isArray(thought.commentData) ? thought.commentData : []
-        }));
+      merge: (persistedState: unknown, currentState: ThoughtState) => {
+        // Type guard to check if persisted state has the right shape
+        if (typeof persistedState !== 'object' || persistedState === null) {
+          return currentState;
+        }
         
+        // Cast to any just for accessing properties
+        const persisted = persistedState as any;
+        
+        // Process thoughts array if it exists in persisted state
+        const thoughts = Array.isArray(persisted.thoughts) 
+          ? persisted.thoughts.map((thought: any) => ({
+              ...thought,
+              commentData: Array.isArray(thought.commentData) ? thought.commentData : []
+            }))
+          : currentState.thoughts;
+          
         return {
           ...currentState,
-          ...persistedState,
-          thoughts
+          // Selectively apply properties we know are valid
+          thoughts: thoughts,
+          error: typeof persisted.error === 'string' || persisted.error === null 
+            ? persisted.error 
+            : currentState.error,
+          isLoading: typeof persisted.isLoading === 'boolean' 
+            ? persisted.isLoading 
+            : currentState.isLoading,
+          // Always reset filter state on refresh
+          showOnlyUserThoughts: false
         };
       }
     }

@@ -16,35 +16,31 @@ import {
 import {
     Search,
     User,
+    MessageSquare,
+    BookOpen,
 } from "lucide-react";
 import { useUser } from "@/hooks/useUser";
 import HydrationErrorFix from "@/components/HydrationErrorFix";
-import { useThoughtStore } from "@/store/useThoughtStore";
+import { useUserStore } from "@/store/useUserStore";
 
-export default function Navbar() {
+export default function NotesNavbar({
+    onSearch,
+    onCreateNote,
+}: {
+    onSearch: (query: string) => void;
+    onCreateNote: () => void;
+}) {
     // Use state to track if component is mounted (client-side)
     const [isMounted, setIsMounted] = useState(false);
-    const [activeTab, setActiveTab] = useState("feed");
     const { user, fetchUser, logout } = useUser();
     const [hamburgerOpen, setHamburgerOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
     const hamburgerRef = useRef<HTMLDivElement>(null);
-    const { showOnlyUserThoughts, setShowOnlyUserThoughts } = useThoughtStore();
     const router = useRouter();
+    const { currentUser } = useUserStore();
 
     // Get current pathname
     const pathname = usePathname() || "";
-
-    // Determine active tab based on pathname
-    useEffect(() => {
-        if (pathname.includes("/feed")) {
-            setActiveTab("feed");
-        } else if (
-            pathname.includes("/profile") ||
-            pathname.includes("/my-thoughts")
-        ) {
-            setActiveTab("My Thoughts");
-        }
-    }, [pathname]);
 
     // Set mounted state to true when component mounts
     useEffect(() => {
@@ -58,7 +54,7 @@ export default function Navbar() {
         if (!user) {
             fetchUser("user-001");
         }
-    }, [user, fetchUser]); // Add missing dependencies
+    }, [user, fetchUser]);
 
     // Close hamburger menu when clicking outside
     useEffect(() => {
@@ -80,10 +76,10 @@ export default function Navbar() {
         setHamburgerOpen((prev) => !prev);
     }, []);
 
-    // Function to toggle showing only user's thoughts
-    const handleMyThoughtsClick = () => {
-        setActiveTab("feed");
-        setShowOnlyUserThoughts(!showOnlyUserThoughts);
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchQuery(value);
+        onSearch(value);
     };
 
     return (
@@ -128,7 +124,7 @@ export default function Navbar() {
                                                         : "hover:bg-gray-100"
                                                 }`}
                                                 onClick={() => {
-                                                    setActiveTab("feed");
+                                                    router.push("/feed");
                                                     setHamburgerOpen(false);
                                                 }}
                                             >
@@ -137,17 +133,12 @@ export default function Navbar() {
 
                                             <button
                                                 className={`w-full text-left px-3 py-1.5 font-medium transition-colors duration-150 cursor-pointer ${
-                                                    pathname.includes(
-                                                        "/profile"
-                                                    ) ||
-                                                    pathname.includes(
-                                                        "/my-thoughts"
-                                                    )
+                                                    pathname.includes("/notes")
                                                         ? "bg-[#8881D8]/20 text-[#6d63d9]"
                                                         : "hover:bg-gray-100"
                                                 }`}
                                                 onClick={() => {
-                                                    router.push("/notes");
+                                                    setHamburgerOpen(false);
                                                 }}
                                             >
                                                 Your Notes
@@ -209,104 +200,89 @@ export default function Navbar() {
                                 </div>
                                 <Input
                                     type="search"
-                                    placeholder="Search..."
+                                    placeholder="Search notes..."
+                                    onChange={handleSearchChange}
                                     className="w-full pl-10 pr-3 py-2 bg-gray-100 border-0 text-text-100 placeholder:text-accent-200/70 focus-visible:ring-0 focus-visible:border-0 focus:outline-none rounded-md h-10 transition-all duration-200 cursor-text font-raleway text-base selection:bg-gray-200 overscroll-y-auto"
                                 />
                             </div>
                         </div>
 
-                        {/* Right Section - Navigation + Profile */}
-                        <div className="flex items-center space-x-2">
-                            {/* Navigation Tabs */}
-                            <div className="flex items-center mr-4 gap-2">
-                                <button
-                                    onClick={() => {
-                                        setActiveTab("feed");
-                                        setShowOnlyUserThoughts(false);
-                                    }}
-                                    className={`px-5 py-2 text-base font-medium rounded-md transition-all duration-200 cursor-pointer ${
-                                        activeTab === "feed" && !showOnlyUserThoughts
-                                            ? "bg-[#8881D8] text-white shadow-sm"
-                                            : "text-text-100 hover:bg-[#8881D8]/20 hover:text-[#7069d0] hover:shadow-sm"
-                                    }`}
-                                >
-                                    Feed
-                                </button>
-                                <button
-                                    onClick={handleMyThoughtsClick}
-                                    className={`px-5 py-2 text-base font-medium rounded-md transition-all duration-200 cursor-pointer ${
-                                        showOnlyUserThoughts
-                                            ? "bg-[#8881D8] text-white shadow-sm"
-                                            : "text-text-100 hover:bg-[#8881D8]/20 hover:text-[#7069d0] hover:shadow-sm"
-                                    }`}
-                                >
-                                    My Thoughts
-                                </button>
-                            </div>
-
+                        {/* Right Section - Profile only */}
+                        <div className="flex items-center gap-4">
+                            <button
+                                onClick={onCreateNote}
+                                className="bg-[#8881D8] hover:bg-[#7E54DA] text-white text-sm py-2 px-4 rounded-lg flex items-center transition-colors duration-200 cursor-pointer"
+                            >
+                                New Note +
+                            </button>
                             {/* Profile Dropdown */}
-                            <div className="flex items-center">
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            className="relative h-fit overflow-hidden rounded-full border-2 border-[#8881D8] shadow-[0_4px_8px_rgba(136,129,216,0.3)] transition-all duration-200 p-0 mr-2 cursor-pointer"
-                                        >
-                                            {isMounted && user ? (
-                                                <Image
-                                                    src={user.avatar}
-                                                    alt={`${user.name}'s profile picture`}
-                                                    width={33}
-                                                    height={33}
-                                                    className="rounded-full object-cover"
-                                                />
-                                            ) : (
-                                                <div className="w-9 h-9 rounded-full bg-accent-100 flex items-center justify-center">
-                                                    <User className="h-5 w-5 text-primary-100" />
-                                                </div>
-                                            )}
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                        className="w-56 bg-white text-gray-800 rounded-md border-0 shadow-lg animate-in fade-in-50 zoom-in-95 z-50 py-1"
-                                        align="end"
-                                        forceMount
-                                        sideOffset={5}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        className="relative h-fit overflow-hidden rounded-full border-2 border-[#8881D8] shadow-[0_4px_8px_rgba(136,129,216,0.3)] transition-all duration-200 p-0 mr-2 cursor-pointer"
                                     >
-                                        <div className="px-3 py-2 text-sm font-medium text-gray-500">
-                                            My Account
-                                        </div>
+                                        {isMounted && user ? (
+                                            <Image
+                                                src={user.avatar}
+                                                alt={`${user.name}'s profile picture`}
+                                                width={33}
+                                                height={33}
+                                                className="rounded-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="w-9 h-9 rounded-full bg-accent-100 flex items-center justify-center">
+                                                <User className="h-5 w-5 text-primary-100" />
+                                            </div>
+                                        )}
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    className="w-56 bg-white text-gray-800 rounded-md border-0 shadow-lg animate-in fade-in-50 zoom-in-95 z-50 py-1"
+                                    align="end"
+                                    forceMount
+                                    sideOffset={5}
+                                >
+                                    <div className="px-3 py-2 text-sm font-medium text-gray-500">
+                                        My Account
+                                    </div>
 
-                                        <Link href="/profile">
-                                            <DropdownMenuItem className="flex cursor-pointer items-center px-3 py-1.5 text-sm hover:bg-gray-100 focus:bg-gray-100 outline-none">
-                                                <span>Profile</span>
-                                                <span className="ml-auto text-xs text-gray-400">
-                                                    ⌘ P
-                                                </span>
-                                            </DropdownMenuItem>
-                                        </Link>
-
+                                    <Link href="/profile">
                                         <DropdownMenuItem className="flex cursor-pointer items-center px-3 py-1.5 text-sm hover:bg-gray-100 focus:bg-gray-100 outline-none">
-                                            <span>Settings</span>
+                                            <span>Profile</span>
                                             <span className="ml-auto text-xs text-gray-400">
-                                                ⌘ S
+                                                ⌘ P
                                             </span>
                                         </DropdownMenuItem>
+                                    </Link>
 
-                                        <DropdownMenuSeparator className="h-px bg-gray-200 my-1" />
+                                    <DropdownMenuSeparator className="h-px bg-gray-200 my-1" />
 
-                                        <DropdownMenuItem
-                                            className="flex cursor-pointer items-center px-3 py-1.5 text-sm hover:bg-gray-100 focus:bg-gray-100 outline-none"
-                                            onClick={logout}
-                                        >
-                                            <span>Log out</span>
-                                            <span className="ml-auto text-xs text-gray-400">
-                                                ⌘ Q
-                                            </span>
+                                    <Link href="/feed">
+                                        <DropdownMenuItem className="flex cursor-pointer items-center px-3 py-1.5 text-sm hover:bg-gray-100 focus:bg-gray-100 outline-none">
+                                            <MessageSquare className="mr-2 h-4 w-4" />
+                                            <span>Community Feed</span>
                                         </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </div>
+                                    </Link>
+
+                                    <Link href="/notes">
+                                        <DropdownMenuItem className="flex cursor-pointer items-center px-3 py-1.5 text-sm hover:bg-gray-100 focus:bg-gray-100 outline-none">
+                                            <BookOpen className="mr-2 h-4 w-4" />
+                                            <span>My Notes</span>
+                                        </DropdownMenuItem>
+                                    </Link>
+
+                                    <DropdownMenuItem
+                                        className="flex cursor-pointer items-center px-3 py-1.5 text-sm hover:bg-gray-100 focus:bg-gray-100 outline-none"
+                                        onClick={logout}
+                                    >
+                                        <span>Log out</span>
+                                        <span className="ml-auto text-xs text-gray-400">
+                                            ⌘ Q
+                                        </span>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                     </div>
                 </div>
