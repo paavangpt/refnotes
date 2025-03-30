@@ -6,6 +6,10 @@ interface ThoughtState {
   // All thoughts in the system
   thoughts: Thought[];
   
+  // Filter for showing only user thoughts
+  showOnlyUserThoughts: boolean;
+  setShowOnlyUserThoughts: (show: boolean) => void;
+  
   // Loading and error states
   isLoading: boolean;
   error: string | null;
@@ -36,8 +40,12 @@ export const useThoughtStore = create<ThoughtState>()(
         ...thought,
         commentData: Array.isArray(thought.commentData) ? thought.commentData : []
       })),
+      showOnlyUserThoughts: false,
       isLoading: false,
       error: null,
+      
+      // Set filter for user thoughts
+      setShowOnlyUserThoughts: (show) => set({ showOnlyUserThoughts: show }),
       
       // Actions
       setThoughts: (thoughts) => set({ thoughts }),
@@ -194,7 +202,9 @@ export const useThoughtStore = create<ThoughtState>()(
         return {
           ...currentState,
           ...persistedState,
-          thoughts
+          thoughts,
+          // Always reset filter state on refresh
+          showOnlyUserThoughts: false
         };
       }
     }

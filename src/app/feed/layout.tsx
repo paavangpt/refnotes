@@ -15,10 +15,10 @@ export default function FeedLayout({
             <Navbar />
             <div className="flex-1 flex pt-5 gap-0">
                 <Sidebar />
-                <main className="flex-1 max-w-9xl mx-auto overflow-scroll">
+                <main className="flex-1 max-w-7xl mx-auto overflow-scroll">
                     {children}
                 </main>
-                <div className="h-full flex flex-col pr-3 gap-3">
+                <div className="h-full flex flex-col pr-3 gap-4">
                     <ThoughtDetail />
                     <ThoughtCreator />
                 </div>
