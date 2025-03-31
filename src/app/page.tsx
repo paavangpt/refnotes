@@ -12,7 +12,7 @@ export default function LandingPage() {
     return (
         <div className="min-h-screen flex flex-col overflow-hidden relative">
             {/* Navbar */}
-            <header className="border-b bg-white">
+            <header className=" bg-white shadow-[0_0_10px_2px_rgba(138,43,226,0.2)]">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -44,7 +44,9 @@ export default function LandingPage() {
                     <div className="w-[50%] mx-auto px-4">
                         <div className="flex flex-col lg:flex-row items-center justify-center gap-12">
                             <div className="max-w-2xl text-center">
-                                <h6 className="text-base">Please view at 90% zoom</h6>
+                                <h6 className="text-base">
+                                    Please view at 90% zoom
+                                </h6>
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 mb-6">
                                     Take smarter notes, share your thoughts
                                 </h1>
