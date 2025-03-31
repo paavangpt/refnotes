@@ -2,20 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import SocialCard from "./components/SocialCard";
-import Navbar from "./components/Navbar";
-import ThoughtCreator from "./components/ThoughtCreator";
 import { useThoughtStore } from "@/store/useThoughtStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useUserRelationshipStore } from "@/store/useUserRelationshipStore";
-import Sidebar from "./components/Sidebar";
 
 export default function Feed() {
     const { thoughts, showOnlyUserThoughts } = useThoughtStore();
     const { currentUser } = useUserStore();
     const { isFollowing } = useUserRelationshipStore();
     const [displayedThoughts, setDisplayedThoughts] = useState(thoughts);
-    const [showCreator, setShowCreator] = useState(true);
-    const [selectedThoughtId, setSelectedThoughtId] = useState<string | null>(null);
 
     // Update displayed thoughts when global thoughts or following relationships change
     useEffect(() => {

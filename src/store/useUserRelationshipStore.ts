@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { User, mockUsers } from '@/data/mockUsers';
+import { mockUsers } from '@/data/mockUsers';
 
 // Define public user data to avoid exposing private information
 export interface PublicUserInfo {

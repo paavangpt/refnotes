@@ -1,16 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
-import {
-    Bookmark,
-    Palette,
-    Tag,
-    Trash2,
-    X,
-    Share2,
-    Globe,
-    Lock,
-} from "lucide-react";
-import ReactMarkdown from "react-markdown";
+import { Bookmark, Palette, Tag, Trash2, X, Globe, Lock } from "lucide-react";
 import { Note } from "@/data/mockNotes";
 import { useNotesStore } from "@/store/useNotesStore";
 import { useThoughtStore } from "@/store/useThoughtStore";
@@ -53,16 +43,7 @@ export default function NoteDetail({ note }: NoteDetailProps) {
 
     // Selection and thought sharing states
     const [showSelectionPopup, setShowSelectionPopup] = useState(false);
-    const [selectionPosition, setSelectionPosition] = useState({
-        top: 0,
-        left: 0,
-    });
-    const [selectedText, setSelectedText] = useState("");
     const [showThoughtDialog, setShowThoughtDialog] = useState(false);
-    const [thoughtDialogPosition, setThoughtDialogPosition] = useState({
-        top: 0,
-        left: 0,
-    });
     const [thoughtText, setThoughtText] = useState("");
     const [thoughtTags, setThoughtTags] = useState<string[]>([]);
     const [thoughtTagInput, setThoughtTagInput] = useState("");
@@ -124,33 +105,16 @@ export default function NoteDetail({ note }: NoteDetailProps) {
                 const rect = range?.getBoundingClientRect();
 
                 if (rect) {
-                    const position = {
-                        top: rect.top, // Position at the selection
-                        left: rect.left + rect.width / 2, // Center horizontally
-                    };
-
                     setThoughtText(selectedText);
                     setThoughtTags([]);
                     setShowThoughtDialog(true);
                     setShowSelectionPopup(false);
-                    setSelectionPosition(position);
-                    // Also store the position for the thought dialog
-                    setThoughtDialogPosition(position);
-                    setSelectedText(selectedText);
                     setShowSelectionPopup(true);
                 }
             } else {
                 setShowSelectionPopup(false);
             }
         }
-    };
-
-    // Share the selected text as a thought
-    const handleShareAsThought = () => {
-        setThoughtText(selectedText);
-        setThoughtTags([]);
-        setShowThoughtDialog(true);
-        setShowSelectionPopup(false);
     };
 
     // Add tag to thought

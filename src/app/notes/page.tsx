@@ -3,8 +3,6 @@
 import React from "react";
 import { useUserStore } from "@/store/useUserStore";
 import { useNotesStore } from "@/store/useNotesStore";
-import { Note } from "@/data/mockNotes";
-
 import NotesNavbar from "./components/NotesNavbar";
 import NotesCompactList from "./components/NotesCompactList";
 import NotesGridList from "./components/NotesGridList";
@@ -12,14 +10,7 @@ import NoteDetail from "./components/NoteDetail";
 
 export default function NotesPage() {
     const { currentUser } = useUserStore();
-    const {
-        notes,
-        selectedNoteId,
-        getUserNotes,
-        getSelectedNote,
-        addNote,
-        selectNote,
-    } = useNotesStore();
+    const { notes, getUserNotes, getSelectedNote, addNote } = useNotesStore();
 
     const [searchQuery, setSearchQuery] = React.useState("");
 

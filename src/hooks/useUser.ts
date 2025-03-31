@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useUserStore } from '@/store/useUserStore';
-import { fetchCurrentUser, fetchUserById, updateUserProfile, logoutUser } from '@/services/userService';
+import { fetchCurrentUser, updateUserProfile, logoutUser } from '@/services/userService';
 import { User } from '@/data/mockUsers';
 
 interface UseUserResult {

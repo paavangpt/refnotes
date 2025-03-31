@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useUser } from "@/hooks/useUser";
 import { useThoughtStore } from "@/store/useThoughtStore";
-import { Tag, X, Globe, Lock, Send, ImagePlus } from "lucide-react";
+import { X, Globe, Lock, Send } from "lucide-react";
 
 // Generate a unique ID for new thoughts
 const generateId = (): string => {

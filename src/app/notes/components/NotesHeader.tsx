@@ -24,7 +24,7 @@ export default function NotesHeader({ onSearch, onCreateNote }: NotesHeaderProps
           <h1 className="text-2xl font-bold text-gray-900">My Notes</h1>
           {currentUser && (
             <p className="text-sm text-gray-500 mt-1">
-              {currentUser.name}'s personal notes
+              {currentUser.name}&apos;s personal notes
             </p>
           )}
         </div>

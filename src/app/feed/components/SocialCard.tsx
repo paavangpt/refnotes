@@ -20,7 +20,6 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Comment } from "@/data/mockThoughts";
-import { useRouter } from "next/navigation";
 import { useSelectedThoughtStore } from "@/store/useSelectedThoughtStore";
 
 interface SocialCardProps {
@@ -147,8 +146,6 @@ export default function SocialCard({
         e.stopPropagation(); // Prevent navigation when clicking the comment input
         e.preventDefault(); // Prevent default link behavior
     };
-
-    const router = useRouter();
 
     const setSelectedThought = useSelectedThoughtStore(
         (state) => state.setSelectedThoughtId

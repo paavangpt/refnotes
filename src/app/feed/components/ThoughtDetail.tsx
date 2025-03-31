@@ -1,20 +1,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
-import {
-    Heart,
-    MessageCircle,
-    Share,
-    X,
-    Send,
-    ChevronDown,
-    ChevronUp,
-    Users,
-} from "lucide-react";
+import { Heart, X, Send, Users } from "lucide-react";
 import { useThoughtStore } from "@/store/useThoughtStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useSelectedThoughtStore } from "@/store/useSelectedThoughtStore";
-import { Comment as CommentType, Thought } from "@/data/mockThoughts";
+import { Comment as CommentType } from "@/data/mockThoughts";
 import { Button } from "@/components/ui/button";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -22,7 +13,6 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "../../../components/ui/scroll-area";
 
@@ -58,9 +48,6 @@ const Comment = ({ comment }: { comment: CommentType }) => {
 
 const LikedByList = ({ likedBy }: { likedBy: string[] }) => {
     const { thoughts } = useThoughtStore();
-    const mockUsers = thoughts
-        .flatMap((thought) => (thought.likedBy ? thought.likedBy : []))
-        .filter((value, index, self) => self.indexOf(value) === index);
 
     return (
         <div className="py-2">

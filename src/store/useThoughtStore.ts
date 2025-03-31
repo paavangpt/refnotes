@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Thought, mockThoughts, Comment } from '@/data/mockThoughts';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface ThoughtState {
   // All thoughts in the system
   thoughts: Thought[];
@@ -34,7 +35,7 @@ interface ThoughtState {
 
 export const useThoughtStore = create<ThoughtState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // Initial state - ensure each thought has commentData initialized
       thoughts: mockThoughts.map(thought => ({
         ...thought,

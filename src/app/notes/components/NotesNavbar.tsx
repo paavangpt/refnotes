@@ -15,18 +15,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
     Search,
-    Settings,
-    LogOut,
     User,
     MessageSquare,
     BookOpen,
-    Brain,
-    LifeBuoy,
-    Mail,
 } from "lucide-react";
 import { useUser } from "@/hooks/useUser";
 import HydrationErrorFix from "@/components/HydrationErrorFix";
-import { useUserStore } from "@/store/useUserStore";
 
 export default function NotesNavbar({
     onSearch,
@@ -37,7 +31,7 @@ export default function NotesNavbar({
 }) {
     // Use state to track if component is mounted (client-side)
     const [isMounted, setIsMounted] = useState(false);
-    const { user, isLoading, fetchUser, logout } = useUser();
+    const { user, fetchUser, logout } = useUser();
     const [hamburgerOpen, setHamburgerOpen] = useState(false);
     const hamburgerRef = useRef<HTMLDivElement>(null);
 
@@ -79,12 +73,9 @@ export default function NotesNavbar({
         setHamburgerOpen((prev) => !prev);
     }, []);
 
-    const [searchQuery, setSearchQuery] = useState("");
-    const { currentUser } = useUserStore();
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setSearchQuery(value);
         onSearch(value);
     };
 

@@ -15,14 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
     Search,
-    Settings,
-    LogOut,
     User,
-    MessageSquare,
-    BookOpen,
-    Brain,
-    LifeBuoy,
-    Mail,
 } from "lucide-react";
 import { useUser } from "@/hooks/useUser";
 import HydrationErrorFix from "@/components/HydrationErrorFix";
@@ -32,7 +25,7 @@ export default function Navbar() {
     // Use state to track if component is mounted (client-side)
     const [isMounted, setIsMounted] = useState(false);
     const [activeTab, setActiveTab] = useState("feed");
-    const { user, isLoading, fetchUser, logout } = useUser();
+    const { user, fetchUser, logout } = useUser();
     const [hamburgerOpen, setHamburgerOpen] = useState(false);
     const hamburgerRef = useRef<HTMLDivElement>(null);
     const { showOnlyUserThoughts, setShowOnlyUserThoughts } = useThoughtStore();
