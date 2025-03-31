@@ -40,9 +40,9 @@ export default function LandingPage() {
 
             <main className="flex-1">
                 {/* Hero Section */}
-                <section className="pt-20 pb-16 lg:pt-28 lg:pb-24 flex justify-center items-center">
+                <section className="pt-20 lg:pt-28 flex justify-center items-center">
                     <div className="w-[50%] mx-auto px-4">
-                        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+                        <div className="flex flex-col lg:flex-row items-center justify-center gap-12">
                             <div className="max-w-2xl text-center">
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 mb-6">
                                     Take smarter notes, share your thoughts
@@ -93,11 +93,14 @@ export default function LandingPage() {
                 {/* Features Section */}
             </main>
 
-            <div className="absolute bottom-[-55%] left-0 right-0 w-[100%] h-full bg-gradient-to-t from-white to-transparent z-10 rounded-t-2xl scale-[.8] shadow-[0_0_40px_0px_rgba(138,43,226,0.4)] overflow-hidden">
-                <Image src="/home-page-preview.png" alt="Gradient" fill />
-            </div>
+            <div></div>
+            <img
+                src="/home-page-preview.png"
+                alt="Gradient"
+                className="h-full aspect-auto bg-gradient-to-t from-white to-transparent z-10 rounded-t-2xl scale-[.8] shadow-[0_0_40px_0px_rgba(138,43,226,0.4)] overflow-hidden"
+            />
 
-            <div className="absolute z-10 w-[500px] scale-[65%] bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 scale-75 top-[10%] left-[-50px] opacity-50 hover:rotate-0 hover:opacity-100 duration-150 animate-float-left2 delay-75">
+            <div className="absolute z-10 w-[500px] scale-[65%] bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 scale-75 top-[120px] left-[-50px] opacity-50 hover:rotate-0 hover:opacity-100 duration-150 animate-float-left2 delay-75">
                 <style jsx>{`
                     @keyframes floatLeft2 {
                         0% {
@@ -157,7 +160,7 @@ export default function LandingPage() {
                 </div>
             </div>
 
-            <div className="absolute z-10 w-[500px] scale-[65%] bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 scale-75 top-[30%] right-[-50px] opacity-50 hover:rotate-0 hover:opacity-100 duration-150 animate-float-right">
+            <div className="absolute z-10 w-[500px] scale-[65%] bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 scale-75 top-[340px] right-[-50px] opacity-50 hover:rotate-0 hover:opacity-100 duration-150 animate-float-right">
                 <style jsx>{`
                     @keyframes floatRight {
                         0% {
