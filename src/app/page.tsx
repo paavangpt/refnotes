@@ -44,6 +44,7 @@ export default function LandingPage() {
                     <div className="w-[50%] mx-auto px-4">
                         <div className="flex flex-col lg:flex-row items-center justify-center gap-12">
                             <div className="max-w-2xl text-center">
+                                <h6 className="text-base">Please view at 90% zoom</h6>
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 mb-6">
                                     Take smarter notes, share your thoughts
                                 </h1>
@@ -119,7 +120,7 @@ export default function LandingPage() {
                     }
                     .animate-float-left2 {
                         animation: floatLeft2 4s ease-in-out infinite;
-                        animation-delay: 1s;
+                        animation-delay: -2s;
                     }
                 `}</style>
                 <div className="p-1 bg-gradient-to-r from-pink-500 to-orange-500"></div>
@@ -179,7 +180,7 @@ export default function LandingPage() {
                     }
                     .animate-float-right {
                         animation: floatRight 4s ease-in-out infinite;
-                        animation-delay: 2s;
+                        animation-delay: 0s;
                     }
                 `}</style>
                 <div className="p-1 bg-gradient-to-r from-teal-500 to-cyan-500"></div>
